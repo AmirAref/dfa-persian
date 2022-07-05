@@ -1,21 +1,9 @@
-on:
-  push:
-    paths:
-      - 'doc/**'
-
-name: CreatePDFs
-
-jobs:
-  makepdfs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v1
-    - uses: mkrakowitzer/actions-makepdfs@master
-      if: github.ref == 'refs/heads/master'
-      with:
-        markdown_dir: doc
-        output_dir: tmp
-    - uses: actions/upload-artifact@v1
-      with:
-        name: platform-architecture-docs
-        path: tmp
+- name: Create PDF
+  # You may pin to the exact commit or the version.
+  # uses: mkrakowitzer/actions-makepdfs@07f1b3912a5dbcd72fe0feed3a3047a17c976d5e
+  uses: mkrakowitzer/actions-makepdfs@v1.3
+  with:
+    # Location of markdown files in github repository
+    markdown_dir: 00-introduction# default is doc
+    # Location to output PDF files to
+    output_dir: # default is tmp
