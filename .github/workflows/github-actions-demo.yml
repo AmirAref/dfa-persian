@@ -1,17 +1,21 @@
- - name: Generate Minimal PDF
- 
-   # Important! Update to release https://github.com/rseng/rse-action/releases
-   uses: ./
-   with:        
+on:
+  push:
+    paths:
+      - 'doc/**'
 
-     # The markdown file to render,path is relative to repository
-     paper_markdown: 00-introduction/README.md
+name: CreatePDFs
 
-     # The paper pdf to save
-     paper_outfile: dfa.pdf
-
-     # Bibliography file, if existing
-     #bibtex: paper/paper.bib
-
-     # One of "minimal" or "pdf" for the template with image, etc.
-     pdf_type: pdf
+jobs:
+  makepdfs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: mkrakowitzer/actions-makepdfs@master
+      if: github.ref == 'refs/heads/master'
+      with:
+        markdown_dir: ./
+        output_dir: tmp
+    - uses: actions/upload-artifact@v1
+      with:
+        name: platform-architecture-docs
+        path: tmp
